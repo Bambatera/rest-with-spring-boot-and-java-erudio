@@ -46,6 +46,7 @@ blog/bin/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+nb*.xml
 
 ### VS Code ###
 .vscode/
