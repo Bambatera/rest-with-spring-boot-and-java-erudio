@@ -16,7 +16,7 @@
     
     <properties>
         <java.version>21</java.version>
-        <dozer.version>6.4.0</dozer.version>
+        <modelmapper.version>3.2.0</modelmapper.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
@@ -58,9 +58,9 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.dozermapper</groupId>
-            <artifactId>dozer-core</artifactId>
-            <version>${dozer.version}</version>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${modelmapper.version}</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>

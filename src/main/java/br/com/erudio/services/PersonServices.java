@@ -4,7 +4,7 @@ import br.com.erudio.controllers.PersonController;
 import br.com.erudio.data.vo.v1.PersonVO;
 import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.exceptions.ResourceNotFoundException;
-import br.com.erudio.mapper.DozerMapper;
+import br.com.erudio.mapper.CustomMapper;
 import br.com.erudio.model.Person;
 import br.com.erudio.repository.PersonRepository;
 import java.util.List;
@@ -24,7 +24,7 @@ public class PersonServices {
 
     public List<PersonVO> findAll() {
         logger.info("Finding people...");
-        List<PersonVO> vos = DozerMapper.parseListObjects(this.personRepository.findAll(), PersonVO.class);
+        List<PersonVO> vos = CustomMapper.parseListObjects(this.personRepository.findAll(), PersonVO.class);
         for (PersonVO vo : vos) {
             vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
         }
@@ -34,7 +34,7 @@ public class PersonServices {
     public PersonVO findById(Long id) {
         logger.info("Finding one person...");
         Person entity = this.personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
-        PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+        PersonVO vo = CustomMapper.parseObject(entity, PersonVO.class);
         vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
         return vo;
     }
@@ -43,8 +43,8 @@ public class PersonServices {
         if (person == null) throw new RequiredObjectIsNullException();
         
         logger.info("Creating one person...");
-        Person entity = DozerMapper.parseObject(person, Person.class);
-        PersonVO vo = DozerMapper.parseObject(this.personRepository.save(entity), PersonVO.class);
+        Person entity = CustomMapper.parseObject(person, Person.class);
+        PersonVO vo = CustomMapper.parseObject(this.personRepository.save(entity), PersonVO.class);
         vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
         return vo;
     }
@@ -58,7 +58,7 @@ public class PersonServices {
         entity.setFirstName(person.getFirstName());
         entity.setGender(person.getGender());
         entity.setLastName(person.getLastName());
-        PersonVO vo = DozerMapper.parseObject(this.personRepository.save(entity), PersonVO.class);
+        PersonVO vo = CustomMapper.parseObject(this.personRepository.save(entity), PersonVO.class);
         vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
         return vo;
     }

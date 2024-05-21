@@ -22,6 +22,7 @@ import br.com.erudio.model.Person;
 import br.com.erudio.repository.PersonRepository;
 import br.com.erudio.services.PersonServices;
 import br.com.erudio.unittests.mapper.mocks.MockPerson;
+import static org.mockito.ArgumentMatchers.any;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -62,16 +63,13 @@ class PersonServicesTest {
 
     @Test
     void testCreate() {
-        Person entity = input.mockEntity(1);
-        entity.setId(1L);
-
-        Person persisted = entity;
+        Person persisted = input.mockEntity(1);
         persisted.setId(1L);
 
         PersonVO vo = input.mockVO(1);
         vo.setKey(1L);
 
-        when(repository.save(entity)).thenReturn(persisted);
+        when(repository.save(any(Person.class))).thenReturn(persisted);
 
         var result = service.create(vo);
 

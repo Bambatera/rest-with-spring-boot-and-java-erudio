@@ -2,7 +2,6 @@ package br.com.erudio.data.vo.v1;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.github.dozermapper.core.Mapping;
 import java.io.Serializable;
 import java.util.Objects;
 import org.springframework.hateoas.RepresentationModel;
@@ -13,7 +12,6 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("id")
-    @Mapping("id")
     private Long key;
     private String firstName;
     private String lastName;
