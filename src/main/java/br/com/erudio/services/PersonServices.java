@@ -2,6 +2,7 @@ package br.com.erudio.services;
 
 import br.com.erudio.controllers.PersonController;
 import br.com.erudio.data.vo.v1.PersonVO;
+import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.mapper.DozerMapper;
 import br.com.erudio.model.Person;
@@ -21,7 +22,7 @@ public class PersonServices {
     @Autowired
     private PersonRepository personRepository;
 
-    public List<PersonVO> findAll() throws Exception {
+    public List<PersonVO> findAll() {
         logger.info("Finding people...");
         List<PersonVO> vos = DozerMapper.parseListObjects(this.personRepository.findAll(), PersonVO.class);
         for (PersonVO vo : vos) {
@@ -30,7 +31,7 @@ public class PersonServices {
         return vos;
     }
 
-    public PersonVO findById(Long id) throws Exception {
+    public PersonVO findById(Long id) {
         logger.info("Finding one person...");
         Person entity = this.personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
@@ -38,7 +39,9 @@ public class PersonServices {
         return vo;
     }
 
-    public PersonVO create(PersonVO person) throws Exception {
+    public PersonVO create(PersonVO person) {
+        if (person == null) throw new RequiredObjectIsNullException();
+        
         logger.info("Creating one person...");
         Person entity = DozerMapper.parseObject(person, Person.class);
         PersonVO vo = DozerMapper.parseObject(this.personRepository.save(entity), PersonVO.class);
@@ -46,7 +49,9 @@ public class PersonServices {
         return vo;
     }
 
-    public PersonVO update(PersonVO person) throws Exception {
+    public PersonVO update(PersonVO person) {
+        if (person == null) throw new RequiredObjectIsNullException();
+        
         logger.info("Updating one person...");
         Person entity = this.personRepository.findById(person.getKey()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         entity.setAddress(person.getAddress());

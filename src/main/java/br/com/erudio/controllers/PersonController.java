@@ -28,24 +28,24 @@ public class PersonController {
     }
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-    public PersonVO findById(@PathVariable(value = "id") Long id) throws Exception {
+    public PersonVO findById(@PathVariable(value = "id") Long id) {
         return this.service.findById(id);
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-    public PersonVO create(@RequestBody PersonVO person) throws Exception {
+    public PersonVO create(@RequestBody PersonVO person) {
         return this.service.create(person);
     }
 
     @PutMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-    public PersonVO update(@RequestBody PersonVO person) throws Exception {
+    public PersonVO update(@RequestBody PersonVO person) {
         return this.service.update(person);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         this.service.delete(id);
         return ResponseEntity.noContent().build();
     }
