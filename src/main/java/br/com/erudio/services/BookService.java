@@ -36,7 +36,7 @@ public class BookService {
 
     public BookVO create(BookVO input) {
         if (input == null) {
-            throw new RequiredObjectIsNullException("Book must be informed!");
+            throw new RequiredObjectIsNullException("It is not allowed to persist a null object!");
         }
 
         Book book = CustomMapper.parseObject(input, Book.class);
@@ -48,7 +48,7 @@ public class BookService {
 
     public BookVO update(BookVO input) {
         if (input == null) {
-            throw new RequiredObjectIsNullException("Book must be informed!");
+            throw new RequiredObjectIsNullException("It is not allowed to persist a null object!");
         }
 
         Book entity = this.bookRepository.findById(input.getKey()).orElseThrow(() -> new ResourceNotFoundException("No registers was found with this ID!"));
