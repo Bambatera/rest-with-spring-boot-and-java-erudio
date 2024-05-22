@@ -1,6 +1,8 @@
 package br.com.erudio.mapper;
 
+import br.com.erudio.data.vo.v1.BookVO;
 import br.com.erudio.data.vo.v1.PersonVO;
+import br.com.erudio.model.Book;
 import br.com.erudio.model.Person;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,6 +13,7 @@ public class CustomMapper {
     private static ModelMapper mapper = new ModelMapper();
 
     static {
+        // Person mapping
         mapper.createTypeMap(
                 Person.class,
                 PersonVO.class)
@@ -19,6 +22,15 @@ public class CustomMapper {
                 PersonVO.class,
                 Person.class)
                 .addMapping(PersonVO::getKey, Person::setId);
+        // Book mapping
+        mapper.createTypeMap(
+                Book.class,
+                BookVO.class)
+                .addMapping(Book::getId, BookVO::setKey);
+        mapper.createTypeMap(
+                BookVO.class,
+                Book.class)
+                .addMapping(BookVO::getKey, Book::setId);
     }
 
     public static <O, D> D parseObject(O origin, Class<D> destination) {
