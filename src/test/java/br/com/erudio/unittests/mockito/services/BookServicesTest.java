@@ -20,7 +20,7 @@ import br.com.erudio.data.vo.v1.BookVO;
 import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.model.Book;
 import br.com.erudio.repository.BookRepository;
-import br.com.erudio.services.BookService;
+import br.com.erudio.services.BookServices;
 import br.com.erudio.unittests.mapper.mocks.MockBook;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -30,7 +30,7 @@ class BookServicesTest {
     MockBook input;
 
     @InjectMocks
-    private BookService service;
+    private BookServices service;
 
     @Mock
     BookRepository repository;

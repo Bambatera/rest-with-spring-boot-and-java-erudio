@@ -1,7 +1,7 @@
 package br.com.erudio.controllers;
 
 import br.com.erudio.data.vo.v1.BookVO;
-import br.com.erudio.services.BookService;
+import br.com.erudio.services.BookServices;
 import br.com.erudio.util.MediaType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BookController {
 
     @Autowired
-    private BookService bookService;
+    private BookServices bookService;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     @Operation(summary = "Finds all Books", description = "Finds all Books",
