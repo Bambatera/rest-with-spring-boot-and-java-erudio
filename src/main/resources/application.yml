@@ -7,7 +7,7 @@ security:
             expire-length: 3600000
 spring:
     datasource:
-        driver-class-name: com.mysql.jdbc.Driver
+        driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3307/java-rest-by-erudio?useTimezone=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
         username: root
         password: L34ndr0.$1lv@
