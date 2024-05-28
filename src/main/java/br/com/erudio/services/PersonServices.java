@@ -40,8 +40,10 @@ public class PersonServices {
     }
 
     public PersonVO create(PersonVO person) {
-        if (person == null) throw new RequiredObjectIsNullException();
-        
+        if (person == null) {
+            throw new RequiredObjectIsNullException();
+        }
+
         logger.info("Creating one person...");
         Person entity = CustomMapper.parseObject(person, Person.class);
         PersonVO vo = CustomMapper.parseObject(this.personRepository.save(entity), PersonVO.class);
@@ -50,8 +52,10 @@ public class PersonServices {
     }
 
     public PersonVO update(PersonVO person) {
-        if (person == null) throw new RequiredObjectIsNullException();
-        
+        if (person == null) {
+            throw new RequiredObjectIsNullException();
+        }
+
         logger.info("Updating one person...");
         Person entity = this.personRepository.findById(person.getKey()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         entity.setAddress(person.getAddress());
