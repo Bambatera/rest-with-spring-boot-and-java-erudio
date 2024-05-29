@@ -62,11 +62,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                             .body()
                                 .jsonPath()
                             .get("body.accessToken").toString();
-//                                .as(TokenVO.class)
-//                            .getAccessToken();
         //@formatter:on
-        
-        System.out.println("===============================================> ACCESS TOKEN: " + accessToken + " <===========================================================");
 
         specification = new RequestSpecBuilder()
                 .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + accessToken)
