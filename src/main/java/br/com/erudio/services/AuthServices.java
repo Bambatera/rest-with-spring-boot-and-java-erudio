@@ -24,7 +24,7 @@ public class AuthServices {
     @Autowired
     private UserRepository repository;
 
-    public ResponseEntity signin(AccountCredentialsVO data) {
+    public TokenVO signin(AccountCredentialsVO data) {
         try {
             var username = data.getUsername();
             var password = data.getPassword();
@@ -38,13 +38,13 @@ public class AuthServices {
             } else {
                 throw new UsernameNotFoundException("Username " + username + " not found!");
             }
-            return ResponseEntity.ok(tokenResponse);
+            return tokenResponse;
         } catch (Exception e) {
             throw new BadCredentialsException("Invalid username/password supplied!");
         }
     }
 
-    public ResponseEntity refreshToken(String username, String refreshToken) {
+    public TokenVO refreshToken(String username, String refreshToken) {
         try {
             var user = repository.findByUsername(username);
 
@@ -54,7 +54,7 @@ public class AuthServices {
             } else {
                 throw new UsernameNotFoundException("Username " + username + " not found!");
             }
-            return ResponseEntity.ok(tokenResponse);
+            return tokenResponse;
         } catch (Exception e) {
             throw new BadCredentialsException("Invalid username/password supplied!");
         }

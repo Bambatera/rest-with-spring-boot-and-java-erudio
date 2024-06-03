@@ -21,6 +21,7 @@ import br.com.erudio.configs.TestConfigs;
 import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import br.com.erudio.integrationtests.vo.AccountCredentialsVO;
 import br.com.erudio.integrationtests.vo.PersonVO;
+import br.com.erudio.integrationtests.vo.TokenVO;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -60,8 +61,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                         .statusCode(200)
                             .extract()
                             .body()
-                                .jsonPath()
-                            .get("body.accessToken").toString();
+                                .as(TokenVO.class)
+                                    .getAccessToken();
         //@formatter:on
 
         specification = new RequestSpecBuilder()
