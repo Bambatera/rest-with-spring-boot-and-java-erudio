@@ -7,6 +7,7 @@ import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.mapper.CustomMapper;
 import br.com.erudio.model.Person;
 import br.com.erudio.repository.PersonRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,13 @@ public class PersonServices {
         PersonVO vo = CustomMapper.parseObject(this.personRepository.save(entity), PersonVO.class);
         vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
         return vo;
+    }
+
+    @Transactional
+    public PersonVO disablePerson(Long id) {
+        logger.info("Disabling one person...");
+        this.personRepository.disablePerson(id);
+        return this.findById(id);
     }
 
     public void delete(Long id) {

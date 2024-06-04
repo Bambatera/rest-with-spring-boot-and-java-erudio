@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import org.springframework.hateoas.RepresentationModel;
 
-@JsonPropertyOrder({"id", "firstName", "lastName", "address", "gender"})
+@JsonPropertyOrder({"id", "firstName", "lastName", "address", "gender", "enabled"})
 public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -17,16 +17,18 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
     private String lastName;
     private String address;
     private String gender;
+    private boolean enabled;
 
     public PersonVO() {
     }
 
-    public PersonVO(Long key, String firstName, String lastName, String address, String gender) {
+    public PersonVO(Long key, String firstName, String lastName, String address, String gender, boolean enabled) {
         this.key = key;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
+        this.enabled = enabled;
     }
 
     public Long getKey() {
@@ -69,14 +71,23 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
         this.gender = gender;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.key);
-        hash = 79 * hash + Objects.hashCode(this.firstName);
-        hash = 79 * hash + Objects.hashCode(this.lastName);
-        hash = 79 * hash + Objects.hashCode(this.address);
-        hash = 79 * hash + Objects.hashCode(this.gender);
+        hash = 67 * hash + Objects.hashCode(this.key);
+        hash = 67 * hash + Objects.hashCode(this.firstName);
+        hash = 67 * hash + Objects.hashCode(this.lastName);
+        hash = 67 * hash + Objects.hashCode(this.address);
+        hash = 67 * hash + Objects.hashCode(this.gender);
+        hash = 67 * hash + (this.enabled ? 1 : 0);
         return hash;
     }
 
@@ -92,6 +103,9 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
             return false;
         }
         final PersonVO other = (PersonVO) obj;
+        if (this.enabled != other.enabled) {
+            return false;
+        }
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }

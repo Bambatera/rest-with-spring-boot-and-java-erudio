@@ -19,6 +19,7 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
     private String lastName;
     private String address;
     private String gender;
+    private boolean enabled;
 
     @JsonIgnore
     private List<Object> links;
@@ -26,12 +27,13 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
     public PersonVO() {
     }
 
-    public PersonVO(Long id, String firstName, String lastName, String address, String gender) {
+    public PersonVO(Long id, String firstName, String lastName, String address, String gender, boolean enabled) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -78,14 +80,23 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
         this.links = links;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.firstName);
-        hash = 79 * hash + Objects.hashCode(this.lastName);
-        hash = 79 * hash + Objects.hashCode(this.address);
-        hash = 79 * hash + Objects.hashCode(this.gender);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.firstName);
+        hash = 37 * hash + Objects.hashCode(this.lastName);
+        hash = 37 * hash + Objects.hashCode(this.address);
+        hash = 37 * hash + Objects.hashCode(this.gender);
+        hash = 37 * hash + (this.enabled ? 1 : 0);
         return hash;
     }
 
@@ -101,6 +112,9 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
             return false;
         }
         final PersonVO other = (PersonVO) obj;
+        if (this.enabled != other.enabled) {
+            return false;
+        }
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }

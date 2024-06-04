@@ -31,15 +31,19 @@ public class Person implements Serializable {
     @Column(name = "gender", nullable = false, length = 6)
     private String gender;
 
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled;
+
     public Person() {
     }
 
-    public Person(Long id, String firstName, String lastName, String address, String gender) {
+    public Person(Long id, String firstName, String lastName, String address, String gender, boolean enabled) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -82,14 +86,23 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.firstName);
-        hash = 79 * hash + Objects.hashCode(this.lastName);
-        hash = 79 * hash + Objects.hashCode(this.address);
-        hash = 79 * hash + Objects.hashCode(this.gender);
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.firstName);
+        hash = 53 * hash + Objects.hashCode(this.lastName);
+        hash = 53 * hash + Objects.hashCode(this.address);
+        hash = 53 * hash + Objects.hashCode(this.gender);
+        hash = 53 * hash + (this.enabled ? 1 : 0);
         return hash;
     }
 
@@ -105,6 +118,9 @@ public class Person implements Serializable {
             return false;
         }
         final Person other = (Person) obj;
+        if (this.enabled != other.enabled) {
+            return false;
+        }
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
