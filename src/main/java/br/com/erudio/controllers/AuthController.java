@@ -25,7 +25,10 @@ public class AuthController {
     AuthServices authServices;
 
     @Operation(summary = "Authenticates a user and returns a token")
-    @PostMapping(value = "/signin", consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
+    @PostMapping(value = "/signin", 
+            consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}
+    )
     public ResponseEntity signin(@RequestBody AccountCredentialsVO data) {
         if (this.checkIfParamsIsNotNull(data)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid credentials!");
@@ -40,7 +43,10 @@ public class AuthController {
     }
 
     @Operation(summary = "Refresh token fora authenticated user and returns a new token")
-    @PutMapping(value = "/refresh/{username}")
+    @PutMapping(value = "/refresh/{username}", 
+            consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}
+    )
     public ResponseEntity refreshToken(@PathVariable(name = "username") String username, @RequestHeader(name = "Authorization") String refreshToken) {
         if (this.checkIfParamsIsNotNull(username, refreshToken)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid credentials!");

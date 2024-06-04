@@ -1,11 +1,15 @@
 package br.com.erudio.integrationtests.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import org.springframework.hateoas.RepresentationModel;
 
-@XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
+@XmlRootElement(name = "PersonVO")
 public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -15,6 +19,9 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
     private String lastName;
     private String address;
     private String gender;
+
+    @JsonIgnore
+    private List<Object> links;
 
     public PersonVO() {
     }
@@ -65,6 +72,10 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public void setLinks(List<Object> links) {
+        this.links = links;
     }
 
     @Override

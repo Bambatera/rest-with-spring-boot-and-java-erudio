@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@XmlRootElement
+@XmlRootElement(name = "TokenVO")
 public class TokenVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
