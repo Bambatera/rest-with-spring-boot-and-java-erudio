@@ -4,6 +4,7 @@ import br.com.erudio.data.vo.v1.PersonVO;
 import br.com.erudio.services.PersonServices;
 import br.com.erudio.util.MediaType;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -50,7 +51,13 @@ public class PersonController {
                 @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                 @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
                 @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
-                @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),}
+                @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+            },
+            parameters = {
+                @Parameter(name = "page", description = "Set number of the page in result"),
+                @Parameter(name = "size", description = "Set number of results in a page"),
+                @Parameter(name = "direction", description = "Set sort order for result")
+            }
     )
     public ResponseEntity<PagedModel<EntityModel<PersonVO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,

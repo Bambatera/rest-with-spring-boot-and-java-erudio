@@ -7,9 +7,14 @@ import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.mapper.CustomMapper;
 import br.com.erudio.model.Book;
 import br.com.erudio.repository.BookRepository;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -17,14 +22,21 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class BookServices {
 
+    private Logger logger = Logger.getLogger(PersonServices.class.getName());
+
     @Autowired
     private BookRepository bookRepository;
 
-    public List<BookVO> findAll() {
-        List<Book> books = this.bookRepository.findAll();
-        List<BookVO> collection = books.stream().map(bk -> CustomMapper.parseObject(bk, BookVO.class)).collect(Collectors.toList());
-        collection.stream().forEach(vo -> vo.add(linkTo(methodOn(BookController.class).findById(vo.getKey())).withSelfRel()));
-        return collection;
+    @Autowired
+    private PagedResourcesAssembler<BookVO> assembler;
+
+    public PagedModel<EntityModel<BookVO>> findAll(Pageable pageable) {
+        logger.info("Finding books...");
+        Page<Book> booksPage = this.bookRepository.findAll(pageable);
+        Page<BookVO> booksVosPage = booksPage.map(book -> CustomMapper.parseObject(book, BookVO.class));
+        booksVosPage.map(vo -> vo.add(linkTo(methodOn(BookController.class).findById(vo.getKey())).withSelfRel()));
+        Link link = linkTo(methodOn(BookController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString())).withSelfRel();
+        return assembler.toModel(booksVosPage, link);
     }
 
     public BookVO findById(Integer id) {
