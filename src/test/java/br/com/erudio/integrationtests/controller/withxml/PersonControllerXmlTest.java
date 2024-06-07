@@ -1,8 +1,5 @@
 package br.com.erudio.integrationtests.controller.withxml;
 
-import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -21,6 +18,7 @@ import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import br.com.erudio.integrationtests.vo.AccountCredentialsVO;
 import br.com.erudio.integrationtests.vo.PersonVO;
 import br.com.erudio.integrationtests.vo.TokenVO;
+import br.com.erudio.integrationtests.vo.wrappers.WrapperPersonVO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import static io.restassured.RestAssured.given;
@@ -246,7 +244,7 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
     @Order(6)
     public void testFindAll() throws JsonMappingException, JsonProcessingException {
 
-        var content = given().spec(specification)
+        var wrapper = given().spec(specification)
             .contentType(TestConfigs.CONTENT_TYPE_XML)
             .accept(TestConfigs.CONTENT_TYPE_XML)
                 .when()
@@ -255,10 +253,9 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
                 .statusCode(200)
                     .extract()
                     .body()
-                        .asString();
-                        //.as(new TypeRef<List<PersonVO>>() {});
+                        .as(WrapperPersonVO.class);
 
-        List<PersonVO> people = xmlMapper.readValue(content, new TypeReference<List<PersonVO>>() {});
+        List<PersonVO> people = wrapper.getEmbedded().getPersons();
         
         PersonVO foundPersonOne = people.get(0);
 
