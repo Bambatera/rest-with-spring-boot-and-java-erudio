@@ -8,9 +8,14 @@ import br.com.erudio.mapper.CustomMapper;
 import br.com.erudio.model.Person;
 import br.com.erudio.repository.PersonRepository;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -23,13 +28,16 @@ public class PersonServices {
     @Autowired
     private PersonRepository personRepository;
 
-    public List<PersonVO> findAll() {
+    @Autowired
+    private PagedResourcesAssembler<PersonVO> assembler;
+
+    public PagedModel<EntityModel<PersonVO>> findAll(Pageable pageable) {
         logger.info("Finding people...");
-        List<PersonVO> vos = CustomMapper.parseListObjects(this.personRepository.findAll(), PersonVO.class);
-        for (PersonVO vo : vos) {
-            vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
-        }
-        return vos;
+        Page<Person> personsPage = this.personRepository.findAll(pageable);
+        Page<PersonVO> personsVosPage = personsPage.map(p -> CustomMapper.parseObject(p, PersonVO.class));
+        personsVosPage.map(vo -> vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel()));
+        Link link = linkTo(methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString())).withSelfRel();
+        return assembler.toModel(personsVosPage, link);
     }
 
     public PersonVO findById(Long id) {
