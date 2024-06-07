@@ -39,6 +39,15 @@ public class PersonServices {
         Link link = linkTo(methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString())).withSelfRel();
         return assembler.toModel(personsVosPage, link);
     }
+    
+    public PagedModel<EntityModel<PersonVO>> findPersonsByName(String firstName, Pageable pageable) {
+        logger.info("Finding people...");
+        Page<Person> personsPage = this.personRepository.findPersonsByName(firstName, pageable);
+        Page<PersonVO> personsVosPage = personsPage.map(p -> CustomMapper.parseObject(p, PersonVO.class));
+        personsVosPage.map(vo -> vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel()));
+        Link link = linkTo(methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString())).withSelfRel();
+        return assembler.toModel(personsVosPage, link);
+    }
 
     public PersonVO findById(Long id) {
         logger.info("Finding one person...");
