@@ -1,6 +1,5 @@
 package br.com.erudio.integrationtests.controller.withxml;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -25,12 +24,12 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
-import io.restassured.mapper.ObjectMapper;
 import io.restassured.specification.RequestSpecification;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(OrderAnnotation.class)
@@ -55,19 +54,19 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         AccountCredentialsVO credentials = new AccountCredentialsVO("leandro", "admin123");
 
         var accessToken = given()
-            .basePath("/auth/signin")
+                .basePath("/auth/signin")
                 .port(TestConfigs.SERVER_PORT)
                 .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .accept(TestConfigs.CONTENT_TYPE_XML)
-            .body(credentials)
+                .body(credentials)
                 .when()
-            .post()
+                .post()
                 .then()
-                    .statusCode(200)
-                        .extract()
-                        .body()
-                            .as(TokenVO.class)
-                        .getAccessToken();
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(TokenVO.class)
+                .getAccessToken();
 
         specification = new RequestSpecBuilder()
                 .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + accessToken)
@@ -86,14 +85,14 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .accept(TestConfigs.CONTENT_TYPE_XML)
-            .body(person)
+                .body(person)
                 .when()
-            .post()
+                .post()
                 .then()
-                    .statusCode(200)
-                        .extract()
-                        .body()
-                            .asString();
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
 
         PersonVO persistedPerson = xmlMapper.readValue(content, PersonVO.class);
         person = persistedPerson;
@@ -123,14 +122,14 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .accept(TestConfigs.CONTENT_TYPE_XML)
-            .body(person)
+                .body(person)
                 .when()
-            .put()
+                .put()
                 .then()
-                    .statusCode(200)
-                        .extract()
-                        .body()
-                            .asString();
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
 
         PersonVO persistedPerson = xmlMapper.readValue(content, PersonVO.class);
         person = persistedPerson;
@@ -159,14 +158,14 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .accept(TestConfigs.CONTENT_TYPE_XML)
-                    .pathParam("id", person.getId())
-                    .when()
-                    .patch("{id}")
+                .pathParam("id", person.getId())
+                .when()
+                .patch("{id}")
                 .then()
-                    .statusCode(200)
-                        .extract()
-                            .body()
-                                .asString();
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
 
         PersonVO persistedPerson = xmlMapper.readValue(content, PersonVO.class);
         System.out.println(persistedPerson.toString());
@@ -195,16 +194,16 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         mockPerson();
 
         var content = given().spec(specification)
-            .contentType(TestConfigs.CONTENT_TYPE_XML)
-            .accept(TestConfigs.CONTENT_TYPE_XML)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .accept(TestConfigs.CONTENT_TYPE_XML)
                 .pathParam("id", person.getId())
-            .when()
+                .when()
                 .get("{id}")
-            .then()
+                .then()
                 .statusCode(200)
-                    .extract()
-                    .body()
-                        .asString();
+                .extract()
+                .body()
+                .asString();
 
         PersonVO persistedPerson = xmlMapper.readValue(content, PersonVO.class);
         System.out.println(persistedPerson.toString());
@@ -231,12 +230,12 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
     @Order(5)
     public void testDelete() throws JsonMappingException, JsonProcessingException {
         given().spec(specification)
-            .contentType(TestConfigs.CONTENT_TYPE_XML)
-            .accept(TestConfigs.CONTENT_TYPE_XML)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .accept(TestConfigs.CONTENT_TYPE_XML)
                 .pathParam("id", person.getId())
-            .when()
+                .when()
                 .delete("{id}")
-            .then()
+                .then()
                 .statusCode(204);
     }
 
@@ -245,20 +244,20 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
     public void testFindAll() throws JsonMappingException, JsonProcessingException {
 
         var content = given().spec(specification)
-            .contentType(TestConfigs.CONTENT_TYPE_XML)
-            .accept(TestConfigs.CONTENT_TYPE_XML)
-            .queryParams("page", 3, "size", 10, "direction", "asc")
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .accept(TestConfigs.CONTENT_TYPE_XML)
+                .queryParams("page", 3, "size", 10, "direction", "asc")
                 .when()
                 .get()
-            .then()
+                .then()
                 .statusCode(200)
-                    .extract()
-                    .body()
-                        .asString();
+                .extract()
+                .body()
+                .asString();
 
         PagedModelPerson wrapper = xmlMapper.readValue(content, PagedModelPerson.class);
         List<PersonVO> people = wrapper.getContent();
-        
+
         PersonVO foundPersonOne = people.get(0);
 
         assertNotNull(foundPersonOne.getId());
@@ -281,7 +280,7 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonSix.getLastName());
         assertNotNull(foundPersonSix.getAddress());
         assertNotNull(foundPersonSix.getGender());
-        
+
         assertEquals(886, foundPersonSix.getId());
         assertEquals("Alvis", foundPersonSix.getFirstName());
         assertEquals("Skinley", foundPersonSix.getLastName());
@@ -297,15 +296,15 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         var specificationWithoutToken = new RequestSpecBuilder()
                 .setBasePath("/api/person/v1")
                 .setPort(TestConfigs.SERVER_PORT)
-                    .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                    .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
                 .build();
-        
+
         given().spec(specificationWithoutToken)
-            .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .when()
                 .get()
-            .then()
+                .then()
                 .statusCode(403);
     }
 
@@ -315,6 +314,42 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         person.setAddress("Brasília, DF, Brasil");
         person.setGender("Male");
         person.setEnabled(true);
+    }
+
+    @Test
+    @Order(8)
+    public void testFindByName() throws JsonMappingException, JsonProcessingException {
+
+        var content = given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .accept(TestConfigs.CONTENT_TYPE_XML)
+                .pathParam("firstName", "ayr")
+                .queryParams("page", 0, "size", 6, "direction", "asc")
+                .when()
+                .get("findPersonByName/{firstName}")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        var wrapper = xmlMapper.readValue(content, PagedModelPerson.class);
+        var people = wrapper.getContent();
+
+        PersonVO foundPersonOne = people.get(0);
+
+        assertNotNull(foundPersonOne.getId());
+        assertNotNull(foundPersonOne.getFirstName());
+        assertNotNull(foundPersonOne.getLastName());
+        assertNotNull(foundPersonOne.getAddress());
+        assertNotNull(foundPersonOne.getGender());
+
+        assertEquals(1, foundPersonOne.getId());
+        assertEquals("Ayrton", foundPersonOne.getFirstName());
+        assertEquals("Senna", foundPersonOne.getLastName());
+        assertEquals("São Paulo", foundPersonOne.getAddress());
+        assertEquals("Male", foundPersonOne.getGender());
+        assertTrue(foundPersonOne.isEnabled());
     }
 
 }

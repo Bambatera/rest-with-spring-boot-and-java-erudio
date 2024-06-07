@@ -1,33 +1,33 @@
 package br.com.erudio.integrationtests.vo.wrappers;
 
-import br.com.erudio.integrationtests.vo.PersonVO;
+import br.com.erudio.integrationtests.vo.BookVO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class PersonEmbeddedVO implements Serializable {
+public class BookEmbeddedVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("personVOList")
-    private List<PersonVO> persons;
+    @JsonProperty("bookVOList")
+    private List<BookVO> books;
 
-    public PersonEmbeddedVO() {
+    public BookEmbeddedVO() {
     }
 
-    public List<PersonVO> getPersons() {
-        return persons;
+    public List<BookVO> getBooks() {
+        return books;
     }
 
-    public void setPersons(List<PersonVO> persons) {
-        this.persons = persons;
+    public void setBooks(List<BookVO> persons) {
+        this.books = persons;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.persons);
+        hash = 79 * hash + Objects.hashCode(this.books);
         return hash;
     }
 
@@ -42,8 +42,8 @@ public class PersonEmbeddedVO implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final PersonEmbeddedVO other = (PersonEmbeddedVO) obj;
-        return Objects.equals(this.persons, other.persons);
+        final BookEmbeddedVO other = (BookEmbeddedVO) obj;
+        return Objects.equals(this.books, other.books);
     }
 
 }

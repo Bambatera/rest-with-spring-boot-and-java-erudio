@@ -237,7 +237,6 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
                 .extract()
                 .body()
                 .asString();
-        //.as(new TypeRef<List<PersonVO>>() {});
 
         WrapperPersonVO wrapper = objectMapper.readValue(content, WrapperPersonVO.class);
         var people = wrapper.getEmbedded().getPersons();
@@ -249,7 +248,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonOne.getLastName());
         assertNotNull(foundPersonOne.getAddress());
         assertNotNull(foundPersonOne.getGender());
-        
+
         assertEquals(877, foundPersonOne.getId());
         assertEquals("Alina", foundPersonOne.getFirstName());
         assertEquals("Coils", foundPersonOne.getLastName());
@@ -264,7 +263,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertNotNull(foundPersonSix.getLastName());
         assertNotNull(foundPersonSix.getAddress());
         assertNotNull(foundPersonSix.getGender());
-        
+
         assertEquals(886, foundPersonSix.getId());
         assertEquals("Alvis", foundPersonSix.getFirstName());
         assertEquals("Skinley", foundPersonSix.getLastName());
@@ -298,6 +297,41 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         person.setAddress("Brasília, DF, Brasil");
         person.setGender("Male");
         person.setEnabled(true);
+    }
+
+    @Test
+    @Order(8)
+    public void testFindByName() throws JsonMappingException, JsonProcessingException {
+
+        var content = given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .pathParam("firstName", "ayr")
+                .queryParams("page", 0, "size", 6, "direction", "asc")
+                .when()
+                .get("findPersonByName/{firstName}")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        WrapperPersonVO wrapper = objectMapper.readValue(content, WrapperPersonVO.class);
+        var people = wrapper.getEmbedded().getPersons();
+
+        PersonVO foundPersonOne = people.get(0);
+
+        assertNotNull(foundPersonOne.getId());
+        assertNotNull(foundPersonOne.getFirstName());
+        assertNotNull(foundPersonOne.getLastName());
+        assertNotNull(foundPersonOne.getAddress());
+        assertNotNull(foundPersonOne.getGender());
+
+        assertEquals(1, foundPersonOne.getId());
+        assertEquals("Ayrton", foundPersonOne.getFirstName());
+        assertEquals("Senna", foundPersonOne.getLastName());
+        assertEquals("São Paulo", foundPersonOne.getAddress());
+        assertEquals("Male", foundPersonOne.getGender());
+        assertTrue(foundPersonOne.isEnabled());
     }
 
 }

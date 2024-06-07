@@ -21,7 +21,7 @@ import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import br.com.erudio.integrationtests.vo.AccountCredentialsVO;
 import br.com.erudio.integrationtests.vo.BookVO;
 import br.com.erudio.integrationtests.vo.TokenVO;
-import com.fasterxml.jackson.core.type.TypeReference;
+import br.com.erudio.integrationtests.vo.pagedmodels.PagedModelBook;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -196,6 +196,7 @@ public class BookControllerXmlTest extends AbstractIntegrationTest {
         var content = given().spec(specification)
                 .accept(TestConfigs.CONTENT_TYPE_XML)
                 .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .queryParams("page", 0, "size", 8, "direction", "asc")
                 .when()
                 .get()
                 .then()
@@ -203,10 +204,9 @@ public class BookControllerXmlTest extends AbstractIntegrationTest {
                 .extract()
                 .body()
                 .asString();
-        //.as(new TypeRef<List<BookVO>>() {});
 
-        List<BookVO> books = xmlMapper.readValue(content, new TypeReference<List<BookVO>>() {
-        });
+        PagedModelBook wrapped = xmlMapper.readValue(content, PagedModelBook.class);
+        List<BookVO> books = wrapped.getContent();
 
         BookVO foundBookOne = books.get(0);
 
@@ -216,14 +216,13 @@ public class BookControllerXmlTest extends AbstractIntegrationTest {
         assertNotNull(foundBookOne.getPrice());
         assertNotNull(foundBookOne.getTitle());
 
-        assertEquals(1, foundBookOne.getId());
-
-        assertEquals("Michael C. Feathers", foundBookOne.getAuthor());
+        assertEquals(12, foundBookOne.getId());
+        assertEquals("Viktor Mayer-Schonberger e Kenneth Kukier", foundBookOne.getAuthor());
 //        assertEquals(stringToDate("2017-11-29"), foundBookOne.getLaunchDate());
-        assertEquals(49.00, foundBookOne.getPrice());
-        assertEquals("Working effectively with legacy code", foundBookOne.getTitle());
+        assertEquals(54.00, foundBookOne.getPrice());
+        assertEquals("Big Data: como extrair volume, variedade, velocidade e valor da avalanche de informação cotidiana", foundBookOne.getTitle());
 
-        BookVO foundBookEight = books.get(8);
+        BookVO foundBookEight = books.get(7);
 
         assertNotNull(foundBookEight.getId());
         assertNotNull(foundBookEight.getAuthor());
@@ -231,12 +230,11 @@ public class BookControllerXmlTest extends AbstractIntegrationTest {
         assertNotNull(foundBookEight.getPrice());
         assertNotNull(foundBookEight.getTitle());
 
-        assertEquals(9, foundBookEight.getId());
-
-        assertEquals("Brian Goetz e Tim Peierls", foundBookEight.getAuthor());
+        assertEquals(15, foundBookEight.getId());
+        assertEquals("Aguinaldo Aragon Fernandes e Vladimir Ferraz de Abreu", foundBookEight.getAuthor());
 //        assertEquals(stringToDate("2017-11-07"), foundBookEight.getLaunchDate());
-        assertEquals(80.00, foundBookEight.getPrice());
-        assertEquals("Java Concurrency in Practice", foundBookEight.getTitle());
+        assertEquals(54.00, foundBookEight.getPrice());
+        assertEquals("Implantando a governança de TI", foundBookEight.getTitle());
     }
 
     @Test
