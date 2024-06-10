@@ -1,6 +1,5 @@
 package br.com.erudio.integrationtests.controller.withxml;
 
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -308,14 +307,6 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
                 .statusCode(403);
     }
 
-    private void mockPerson() {
-        person.setFirstName("Nelson");
-        person.setLastName("Piquet");
-        person.setAddress("Brasília, DF, Brasil");
-        person.setGender("Male");
-        person.setEnabled(true);
-    }
-
     @Test
     @Order(8)
     public void testFindByName() throws JsonMappingException, JsonProcessingException {
@@ -351,5 +342,41 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         assertEquals("Male", foundPersonOne.getGender());
         assertTrue(foundPersonOne.isEnabled());
     }
+    /*
+    @Test
+    @Order(9)
+    public void testHATEOAS() throws JsonMappingException, JsonProcessingException {
 
+        var content = given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .accept(TestConfigs.CONTENT_TYPE_XML)
+                .queryParams("page", 3, "size", 10, "direction", "asc")
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        assertTrue(content.contains("<content><id>313</id><firstName>Alwin</firstName><lastName>Leverich</lastName><address>4684 Green Ridge Junction</address><gender>Male</gender><enabled>false</enabled><links><rel>self</rel><href>http://localhost:8080/api/person/v1/313</href></links></content>"));
+        assertTrue(content.contains("<content><id>886</id><firstName>Alvis</firstName><lastName>Skinley</lastName><address>63688 Schlimgen Crossing</address><gender>Male</gender><enabled>true</enabled><links><rel>self</rel><href>http://localhost:8080/api/person/v1/886</href></links></content>"));
+        assertTrue(content.contains("<content><id>426</id><firstName>Amalie</firstName><lastName>Calender</lastName><address>7395 Granby Alley</address><gender>Female</gender><enabled>false</enabled><links><rel>self</rel><href>http://localhost:8080/api/person/v1/426</href></links></content>"));
+
+        assertTrue(content.contains("<links><rel>first</rel><href>http://localhost:8080/api/person/v1?direction=firstName%3A%20ASC&amp;page=0&amp;size=10&amp;sort=firstName,asc</href></links>"));
+        assertTrue(content.contains("<links><rel>prev</rel><href>http://localhost:8080/api/person/v1?direction=firstName%3A%20ASC&amp;page=2&amp;size=10&amp;sort=firstName,asc</href></links>"));
+        assertTrue(content.contains("<links><rel>self</rel><href>http://localhost:8080/api/person/v1?page=3&amp;size=10&amp;direction=firstName%3A%20ASC</href></links>"));
+        assertTrue(content.contains("<links><rel>next</rel><href>http://localhost:8080/api/person/v1?direction=firstName%3A%20ASC&amp;page=4&amp;size=10&amp;sort=firstName,asc</href></links>"));
+        assertTrue(content.contains("<links><rel>last</rel><href>http://localhost:8080/api/person/v1?direction=firstName%3A%20ASC&amp;page=100&amp;size=10&amp;sort=firstName,asc</href></links>"));
+
+        assertTrue(content.contains("<page><size>10</size><totalElements>1007</totalElements><totalPages>101</totalPages><number>3</number></page>"));
+    }
+    */
+    private void mockPerson() {
+        person.setFirstName("Nelson");
+        person.setLastName("Piquet");
+        person.setAddress("Brasília, DF, Brasil");
+        person.setGender("Male");
+        person.setEnabled(true);
+    }
 }

@@ -313,14 +313,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
                 .statusCode(403);
     }
 
-    private void mockPerson() {
-        person.setFirstName("Nelson");
-        person.setLastName("Piquet");
-        person.setAddress("Brasília, DF, Brasil");
-        person.setGender("Male");
-        person.setEnabled(true);
-    }
-
     @Test
     @Order(8)
     public void testFindByName() throws JsonMappingException, JsonProcessingException {
@@ -355,5 +347,44 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
         assertEquals("São Paulo", foundPersonOne.getAddress());
         assertEquals("Male", foundPersonOne.getGender());
         assertTrue(foundPersonOne.isEnabled());
+    }
+
+    /*
+    @Test
+    @Order(9)
+    public void testHATEOAS() throws JsonMappingException, JsonProcessingException {
+
+        var content = given().spec(specification)
+                .config(RestAssuredConfig.config().encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(TestConfigs.CONTENT_TYPE_YML, ContentType.TEXT)))
+                .contentType(TestConfigs.CONTENT_TYPE_YML)
+                .accept(TestConfigs.CONTENT_TYPE_YML)
+                .queryParams("page", 3, "size", 10, "direction", "asc")
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString().replace("\n\r", "").replace("\n", "");
+
+        assertTrue(content.contains("id: 313  firstName: \"Alwin\"  lastName: \"Leverich\"  address: \"4684 Green Ridge Junction\"  gender: \"Male\"  enabled: false  links:  - rel: \"self\"    href: \"http://localhost:8080/api/person/v1/313\""));
+        assertTrue(content.contains("id: 886  firstName: \"Alvis\"  lastName: \"Skinley\"  address: \"63688 Schlimgen Crossing\"  gender: \"Male\"  enabled: true  links:  - rel: \"self\"    href: \"http://localhost:8080/api/person/v1/886\""));
+        assertTrue(content.contains("id: 426  firstName: \"Amalie\"  lastName: \"Calender\"  address: \"7395 Granby Alley\"  gender: \"Female\"  enabled: false  links:  - rel: \"self\"    href: \"http://localhost:8080/api/person/v1/426\""));
+
+        assertTrue(content.contains("rel: \"first\"  href: \"http://localhost:8080/api/person/v1?direction=firstName%3A%20ASC&page=0&size=10&sort=firstName,asc\""));
+        assertTrue(content.contains("rel: \"prev\"  href: \"http://localhost:8080/api/person/v1?direction=firstName%3A%20ASC&page=2&size=10&sort=firstName,asc\""));
+        assertTrue(content.contains("rel: \"self\"  href: \"http://localhost:8080/api/person/v1?page=3&size=10&direction=firstName%3A%20ASC\""));
+        assertTrue(content.contains("rel: \"next\"  href: \"http://localhost:8080/api/person/v1?direction=firstName%3A%20ASC&page=4&size=10&sort=firstName,asc\""));
+        assertTrue(content.contains("rel: \"last\"  href: \"http://localhost:8080/api/person/v1?direction=firstName%3A%20ASC&page=100&size=10&sort=firstName,asc\""));
+
+        assertTrue(content.contains("page:  size: 10  totalElements: 1007  totalPages: 101  number: 3"));
+    }
+    */
+    private void mockPerson() {
+        person.setFirstName("Nelson");
+        person.setLastName("Piquet");
+        person.setAddress("Brasília, DF, Brasil");
+        person.setGender("Male");
+        person.setEnabled(true);
     }
 }

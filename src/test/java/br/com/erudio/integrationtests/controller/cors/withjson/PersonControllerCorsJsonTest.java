@@ -55,14 +55,14 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
                 .port(TestConfigs.SERVER_PORT)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
                 .body(credentials)
-                    .when()
+                .when()
                 .post()
-                    .then()
-                        .statusCode(200)
-                            .extract()
-                            .body()
-                                .as(TokenVO.class)
-                                    .getAccessToken();
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(TokenVO.class)
+                .getAccessToken();
         //@formatter:on
 
         specification = new RequestSpecBuilder()
@@ -182,6 +182,20 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
 
         assertNotNull(content);
         assertEquals("Invalid CORS request", content);
+    }
+
+    @Test
+    @Order(5)
+    public void testDelete() throws JsonMappingException, JsonProcessingException {
+
+        given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .pathParam("id", person.getId())
+                .when()
+                .delete("{id}")
+                .then()
+                .statusCode(204);
+
     }
 
     private void mockPerson() {

@@ -250,7 +250,36 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
                 .then()
                 .statusCode(403);
     }
+    /*
+    @Test
+    @Order(7)
+    public void testHATEOAS() throws JsonMappingException, JsonProcessingException {
 
+        var content = given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .accept(TestConfigs.CONTENT_TYPE_JSON)
+                .queryParams("page", 1, "size", 5, "direction", "asc")
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        assertTrue(content.contains("\"_links\":{\"self\":{\"href\":\"http://localhost:8080/api/books/v1/11\"}}"));
+        assertTrue(content.contains("\"_links\":{\"self\":{\"href\":\"http://localhost:8080/api/books/v1/7\"}}"));
+        assertTrue(content.contains("\"_links\":{\"self\":{\"href\":\"http://localhost:8080/api/books/v1/15\"}}"));
+
+        assertTrue(content.contains("\"first\":{\"href\":\"http://localhost:8080/api/books/v1?direction=title%3A%20ASC&page=0&size=5&sort=title,asc\"}"));
+        assertTrue(content.contains("\"prev\":{\"href\":\"http://localhost:8080/api/books/v1?direction=title%3A%20ASC&page=0&size=5&sort=title,asc\"}"));
+        assertTrue(content.contains("\"self\":{\"href\":\"http://localhost:8080/api/books/v1?page=1&size=5&direction=title%3A%20ASC\"}"));
+        assertTrue(content.contains("\"next\":{\"href\":\"http://localhost:8080/api/books/v1?direction=title%3A%20ASC&page=2&size=5&sort=title,asc\"}"));
+        assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8080/api/books/v1?direction=title%3A%20ASC&page=2&size=5&sort=title,asc\"}"));
+
+        assertTrue(content.contains("\"page\":{\"size\":5,\"totalElements\":15,\"totalPages\":3,\"number\":1}"));
+    }
+    */
     private void mockBook() {
         books.setAuthor("Barry Burd");
         books.setLaunchDate(stringToDate("2022-04-22"));
