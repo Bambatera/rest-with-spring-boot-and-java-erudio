@@ -18,7 +18,7 @@ services:
       - 3308
     networks:
       - erudio-network
-  java-rest-by-erudio:
+  rest-with-spring-boot-and-java-erudio:
     image: bambatera/java-rest-by-erudio
     restart: always
     build: ./
