@@ -129,9 +129,9 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3307/java-rest-by-erudio?useTimezone=true&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;useSSL=false</url>
-                    <user>root</user>
-                    <password>L34ndr0.$1lv@</password>
+                    <url>jdbc:mysql://java-rest-by-erudio.cxcaw808w7de.sa-east-1.rds.amazonaws.com:3306/java_rest_by_erudio?useTimezone=true&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;useSSL=false</url>
+                    <user>docker</user>
+                    <password>admin123</password>
                 </configuration>
                 <dependencies>
                     <dependency>

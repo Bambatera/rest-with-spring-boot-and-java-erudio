@@ -12,9 +12,9 @@ security:
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3307/java-rest-by-erudio?useTimezone=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-        username: root
-        password: L34ndr0.$1lv@
+        url: jdbc:mysql://java-rest-by-erudio.cxcaw808w7de.sa-east-1.rds.amazonaws.com:3306/java_rest_by_erudio?useTimezone=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+        username: docker
+        password: admin123
     jpa:
         open-in-view: false
         hibernate:
